@@ -10,15 +10,15 @@ import {Task, TaskService} from '../task.service';
 
 export class TaskFormComponent {
 
-  newTask: Task = {title: '', discription: ''};
+  newTask: Task = {title: '', description: '', done: false};
 
   constructor(private taskService: TaskService){}
 
   addTask() {
-    if(this.newTask.title || this.newTask.discription){
+    if(this.newTask.title || this.newTask.description){
 
       this.taskService.addTask({ ...this.newTask});
-      this.newTask = {title: '', discription: ''};
+      this.newTask = {title: '', description: '', done: false};
     }
   }
 }

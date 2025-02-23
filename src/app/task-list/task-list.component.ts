@@ -19,5 +19,10 @@ export class TaskListComponent {
   deleteTask(i: number): void {
     this.taskService.deleteTask(i);
   }
+
+  toggleDone(i: number): void {
+    this.taskService.toggleDone(i);
+    console.log('Task at index', i, 'is now:', this.tasks[i].done);
+  }
   
 }

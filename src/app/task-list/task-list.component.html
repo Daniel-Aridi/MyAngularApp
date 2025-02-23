@@ -2,10 +2,16 @@
 <h2>My Tasks</h2>
 
 <div class="grid">
-  <div class="task-box" *ngFor="let task of tasks; let i = index">
-    <h3>{{task.title}}</h3>
-    <p>{{task.discription}}</p>
-    <button (click)="deleteTask(i)">Delete</button>
+  <div class="task-box" *ngFor="let task of tasks; let i = index" [style.background-color]="task.done ? '#d4edda' : '#f9f9f9'">
+    <h3 [style.text-decoration]="task.done ? 'line-through' : 'none'">{{task.title}}</h3>
+    <p>{{task.description}}</p>
+    <div class="actions">
+      <label class="checkbox-label"> 
+        <input type="checkbox" class="checkbox" [checked]="task.done" (change)="toggleDone(i)">
+        <span>done</span>
+      </label>
+      <button (click)="deleteTask(i)">Delete</button>
+    </div>
   </div>
 </div>
     

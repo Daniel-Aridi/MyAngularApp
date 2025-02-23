@@ -1,3 +1,28 @@
-div { margin: 10px 0; }
-    input, textarea { width: 200px; padding: 5px; }
-    textarea { height: 60px; }
+
+h2{
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+div input{
+    margin: 0 0 10px 0;
+    width: 300px;
+    height: 30px;
+}
+
+div textarea{
+    margin: 5px 0 10px 0;
+    width: 300px;
+    height: 100px;
+}
+
+button{
+    width: 70px;
+    height: 25px;
+}
+
+.task-form {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 20px;
+    display: inline-block;
+}
