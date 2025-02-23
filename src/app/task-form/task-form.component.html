@@ -1,0 +1,8 @@
+<h2>Add a Task</h2>
+<div>
+  <input [(ngModel)]="newTask.title" placeholder="Task title" required>
+</div>
+<div>
+  <textarea [(ngModel)]="newTask.discription" placeholder="Description"></textarea>
+</div>
+<button (click)="addTask()">Add Task</button>
