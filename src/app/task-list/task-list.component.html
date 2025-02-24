@@ -10,7 +10,10 @@
         <input type="checkbox" class="checkbox" [checked]="task.done" (change)="toggleDone(i)">
         <span>done</span>
       </label>
-      <button (click)="deleteTask(i)">Delete</button>
+      <div class="button-group">
+        <button (click)="deleteTask(i)">Delete</button>
+        <button (click)="editTask(i)">Edit</button>
+      </div>
     </div>
   </div>
 </div>

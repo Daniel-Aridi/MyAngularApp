@@ -18,11 +18,16 @@ export class TaskListComponent {
   
   deleteTask(i: number): void {
     this.taskService.deleteTask(i);
+    this.tasks = [...this.taskService.getTasks()];
   }
 
   toggleDone(i: number): void {
     this.taskService.toggleDone(i);
-    console.log('Task at index', i, 'is now:', this.tasks[i].done);
+    this.tasks = [...this.taskService.getTasks()];
   }
   
+  editTask(i: number): void {
+    this.taskService.editTask(i);
+    //this.tasks = [...this.taskService.getTasks()]; //THIS IS CAUSING A PROB. WHY?
+  }
 }

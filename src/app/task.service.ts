@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 
 //defining task structure
@@ -8,6 +9,10 @@ export interface Task {
   done: boolean;
 }
 
+interface TaskFormState {
+  task: Task;
+  editingIndex: number | null;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +20,11 @@ export interface Task {
 
 export class TaskService {
 
+  private taskSource = new BehaviorSubject<TaskFormState>({ task:{title: '', description: '', done: false}, editingIndex: null });
+  currentTask = this.taskSource.asObservable(); 
+
   private tasks: Task[] = [
-    {title: 'my title', description: 'this is a discription of the task', done: false},
+    {title: 'REGISTER JOBVERSE', description: 'this is a discription of the task', done: false},
     {title: 'my second title', description: 'this is the discription of my second task', done: false}
   ];
 
@@ -26,7 +34,22 @@ export class TaskService {
   }
 
   addTask(task: Task): void {
-    this.tasks.push(task);
+    if(this.taskSource.value.editingIndex != null){
+      this.tasks[this.taskSource.value.editingIndex] = { ...task};
+      this.clearEditing();
+    }
+    else{
+      this.tasks.push(task);
+    }
+  }
+
+  editTask(index: number): void {
+    this.taskSource.value.editingIndex = index;
+    this.taskSource.next({task:{ ...this.tasks[index]}, editingIndex: index});
+  }
+
+  private clearEditing(): void {
+    this.taskSource.next({task:{title: '', description: '', done: false}, editingIndex: null});
   }
 
   deleteTask(index: number): void {

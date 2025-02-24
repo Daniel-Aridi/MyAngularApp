@@ -1,6 +1,6 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 10px;
 }
 .task-box {
@@ -8,39 +8,40 @@
   padding: 10px;
   transition: background-color 0.3s;
   background-color: #f9f9f9;
-  display: flex; 
-  flex-direction: column; 
-  justify-content: space-between; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
-.task-box h3 { 
-  margin: 3px 0 20px 5px; 
-} 
-.task-box p { 
-  margin: 0 0 10px 0; 
-  word-wrap: break-word; 
-  overflow-wrap: break-word; 
-  max-height: 100px; 
-  overflow-y: auto; 
+.task-box h3 {
+  margin: 3px 0 20px 5px;
+}
+.task-box p {
+  margin: 0 0 10px 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-height: 100px;
+  overflow-y: auto;
   margin: 0 0 20px 0;
   padding: 0 0 0 5px;
 }
-.actions { 
-  display: flex; 
-  justify-content: space-between; 
-  align-items: center; 
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.actions button { 
-  display: inline-block;
+.button-group {
+  display: flex;
+  gap: 5px; /* Space between Delete and Edit buttons */
 }
-.checkbox-label { 
-  display: flex; 
-  align-items: center; 
+.checkbox-label {
+  display: flex;
+  align-items: center;
 }
-.checkbox { 
+.checkbox {
   width: 25px;
   height: 25px;
 }
-button { 
+button {
   margin: 5px;
   width: 70px;
   height: 25px;
