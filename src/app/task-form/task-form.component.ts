@@ -23,9 +23,12 @@ export class TaskFormComponent implements OnInit{
 
   addTask() {
     if(this.newTask.title){
-
-      this.taskService.addTask({ ...this.newTask});
+      this.taskService.addTask(this.newTask);
       this.newTask = {title: '', description: '', done: false};
     }
+  }
+
+  cancelEdit(){
+    this.taskService.clearEditing();
   }
 }

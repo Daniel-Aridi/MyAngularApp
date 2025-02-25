@@ -29,7 +29,6 @@ export class TaskService {
   ];
 
   getTasks(): Task[] {
-    
     return this.tasks;
   }
 
@@ -44,11 +43,10 @@ export class TaskService {
   }
 
   editTask(index: number): void {
-    this.taskSource.value.editingIndex = index;
     this.taskSource.next({task:{ ...this.tasks[index]}, editingIndex: index});
   }
 
-  private clearEditing(): void {
+  clearEditing(): void {
     this.taskSource.next({task:{title: '', description: '', done: false}, editingIndex: null});
   }
 

@@ -8,5 +8,6 @@
   </div>
   <div class="actions">
     <button (click)="addTask()">{{ editingIndex !== null ? 'Save' : 'Add' }}</button>
+    <button *ngIf="editingIndex !== null" (click)="cancelEdit()">Cancel</button>
   </div>
 </div>

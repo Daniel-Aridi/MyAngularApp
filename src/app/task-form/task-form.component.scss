@@ -15,10 +15,11 @@ div textarea{
     height: 100px;
 }
 
-.actions{
+.actions {
     display: flex;
     justify-content: flex-end;
-}
+    gap: 10px; 
+  }
 
 button{
     width: 70px;
