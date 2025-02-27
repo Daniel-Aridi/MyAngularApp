@@ -1,13 +1,13 @@
 <div class="task-form">
-  <h2>{{editingIndex !== null ? 'Edit Task' : 'Add New Task'}}</h2>
+  <h2>{{ newTask.isEditing !== true ? 'Edit Task' : 'Add New Task'}}</h2>
   <div>
-    <input [(ngModel)]="newTask.title" placeholder="Title" required>
+    <input [(ngModel)]="newTask.task.title" placeholder="Title" required>
   </div>
   <div>
-    <textarea [(ngModel)]="newTask.description" placeholder="Description"></textarea>
+    <textarea [(ngModel)]="newTask.task.description" placeholder="Description"></textarea>
   </div>
   <div class="actions">
-    <button (click)="addTask()">{{ editingIndex !== null ? 'Save' : 'Add' }}</button>
-    <button *ngIf="editingIndex !== null" (click)="cancelEdit()">Cancel</button>
+    <button (click)="addOrUpdateTask()">{{ newTask.isEditing == true ? 'Save' : 'Add' }}</button>
+    <button *ngIf="newTask.isEditing !== false" (click)="cancelEdit()">Cancel</button>
   </div>
 </div>

@@ -1,60 +1,85 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Task, TaskFormState} from './models/model';
 
 
-//defining task structure
-export interface Task {
-  title: string;
-  description: string;
-  done: boolean;
-}
 
-interface TaskFormState {
-  task: Task;
-  editingIndex: number | null;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 
+
+
+
 export class TaskService {
 
-  private taskSource = new BehaviorSubject<TaskFormState>({ task:{title: '', description: '', done: false}, editingIndex: null });
+  private apiUrl = 'http://localhost:5264/api/Tasks';
+
+
+  private taskSource = new BehaviorSubject<TaskFormState>({ task:{id: 0, title: '', description: '', done: false}, isEditing: false });
   currentTask = this.taskSource.asObservable(); 
 
-  private tasks: Task[] = [
-    {title: 'REGISTER JOBVERSE', description: 'this is a discription of the task', done: false},
-    {title: 'my second title', description: 'this is the discription of my second task', done: false}
-  ];
+  private tasksSource = new BehaviorSubject<Task[]>([]);
+  updateTasks = this.tasksSource.asObservable();
 
-  getTasks(): Task[] {
-    return this.tasks;
+
+
+  constructor(private http: HttpClient){
+    this.refreshTasks();
+  }
+
+
+
+  private refreshTasks(): void {
+    this.get().subscribe(tasks => {this.tasksSource.next(tasks);});
+  }
+  private get(): Observable<Task[]> {
+    return this.http.get<Task[]>(this.apiUrl);
+  }
+  private post(task: Task): Observable<Task> {
+    return this.http.post<Task>(this.apiUrl, task);
+  }
+  private put(task: Task): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${task.id}`, task);
+  }
+  private delete(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+
+
+  getTasks(): Observable<Task[]> {
+    return this.get();
   }
 
   addTask(task: Task): void {
-    if(this.taskSource.value.editingIndex != null){
-      this.tasks[this.taskSource.value.editingIndex] = { ...task};
-      this.clearEditing();
-    }
-    else{
-      this.tasks.push(task);
-    }
+    this.post(task).subscribe(() => {
+      this.refreshTasks();
+    });
   }
 
-  editTask(index: number): void {
-    this.taskSource.next({task:{ ...this.tasks[index]}, editingIndex: index});
+  updateTask(task: Task): void {
+    this.put(task).subscribe(() => {
+      this.refreshTasks();
+    });
   }
 
-  clearEditing(): void {
-    this.taskSource.next({task:{title: '', description: '', done: false}, editingIndex: null});
+  editTask(task: Task): void {
+    this.taskSource.next({task: task, isEditing: true});
   }
 
-  deleteTask(index: number): void {
-    this.tasks.splice(index, 1);
+  deleteTask(id: number): void {
+    this.delete(id).subscribe(() => {
+      this.refreshTasks();
+    });
   }
 
-  toggleDone(index: number): void {
-    this.tasks[index].done =! this.tasks[index].done;
+  toggleDone(task: Task): void {
+    task.done = !task.done;
+    this.put(task).subscribe(() => {
+      this.refreshTasks();
+    });
   }
 }

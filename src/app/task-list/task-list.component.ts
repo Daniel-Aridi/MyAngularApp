@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import {Task, TaskService} from '../task.service';
+import { Component, OnInit } from '@angular/core';
+import { TaskService } from '../task.service';
+import { Task, TaskFormState } from '../models/model';
 
 @Component({
   selector: 'app-task-list',
@@ -7,24 +8,30 @@ import {Task, TaskService} from '../task.service';
   styleUrls: ['./task-list.component.scss']
     
 })
-export class TaskListComponent {
+export class TaskListComponent implements OnInit{
 
-  tasks: Task[];
+  protected tasks: Task[] = [];
+
 
   constructor(private taskService: TaskService) {
-
-    this.tasks = taskService.getTasks();
-  }
-  
-  deleteTask(i: number): void {
-    this.taskService.deleteTask(i);
+    this.taskService.updateTasks.subscribe(tasks => {
+      this.tasks = tasks;
+    });
   }
 
-  toggleDone(i: number): void {
-    this.taskService.toggleDone(i);
+  ngOnInit() {}
+
+
+  
+  deleteTask(index: number): void {
+    this.taskService.deleteTask(this.tasks[index].id);
+  }
+
+  toggleDone(index: number): void {
+    this.taskService.toggleDone({ ...this.tasks[index]});
   }
   
-  editTask(i: number): void {
-    this.taskService.editTask(i);
+  editTask(index: number): void {
+    this.taskService.editTask({ ...this.tasks[index]});
   }
 }

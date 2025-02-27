@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Task, TaskService} from '../task.service';
+import { TaskService } from '../task.service';
+import { Task, TaskFormState } from '../models/model';
 
 @Component({
   selector: 'app-task-form',
@@ -10,25 +11,32 @@ import {Task, TaskService} from '../task.service';
 
 export class TaskFormComponent implements OnInit{
 
-  newTask: Task = {title: '', description: '', done: false};
-  editingIndex: number | null = null;
+  protected newTask: TaskFormState = { task: { id: 0, title: '', description: '', done: false }, isEditing: false};
 
   constructor(private taskService: TaskService){}
 
 
   ngOnInit() {
-    this.taskService.currentTask.subscribe(state => {this.newTask = { ...state.task}; this.editingIndex = state.editingIndex});
+    this.taskService.currentTask.subscribe(state => {this.newTask = state;});
+  }
+
+  private clearEditing(): void {
+    this.newTask = {task: { id: 0, title: '', description: '', done: false }, isEditing: false };
   }
 
 
-  addTask() {
-    if(this.newTask.title){
-      this.taskService.addTask(this.newTask);
-      this.newTask = {title: '', description: '', done: false};
+  addOrUpdateTask() {
+    if (this.newTask.task.title) {
+      if (this.newTask.isEditing) {
+        this.taskService.updateTask(this.newTask.task);
+      } else {
+        this.taskService.addTask(this.newTask.task);
+      }
+      this.clearEditing();
     }
   }
 
   cancelEdit(){
-    this.taskService.clearEditing();
+    this.clearEditing();
   }
 }
